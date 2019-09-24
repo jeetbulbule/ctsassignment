@@ -1,0 +1,37 @@
+<div class='m-5 center rounded shadow py-10 userForm'>
+  <form class="needs-validation">
+    <div class="form-group">
+      <label for="exampleInputEmail1" class='col-2'>Upload a .csv file: </label>
+      <input type='file' name='userFile' id='file' (change)="onFileSelect($event)" aria-label="Please upload a .csv file">
+    </div>
+    <div *ngIf="!isValidFile">
+      <div class="alert alert-danger alert-dismissible" role="alert" aria-live="polite"> Please upload .csv file only.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button></div>
+    </div>
+  </form>
+  <div *ngIf="records" class="container-fluid rounded">
+    <label for="searchTextId" class="m-2">Filter by issue count:</label>
+    <input [(ngModel)]="searchText" type="text" id="searchTextId" class="col-4 mb-3">
+    <table class="table">
+      <caption class="sr-only">User details table</caption>
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Issue Count</th>
+        <th scope="col">DOB</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of records | tableFilterPipe: {issueCount: searchText, firstName: searchText};">
+        <td>{{record.firstName}}</td>
+        <td>{{record.lastName}}</td>
+        <td>{{record.issueCount}}</td>
+        <td>{{record.dob | date: 'dd/MM/yyyy'}}</td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
